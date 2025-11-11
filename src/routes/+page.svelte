@@ -23,7 +23,7 @@
 			name: 'Windows',
 			file: 'waves-windows-x86_64.zip',
 			size: '5.9 MB',
-			icon: '🪟'
+			icon: '💻'
 		}
 	};
 
