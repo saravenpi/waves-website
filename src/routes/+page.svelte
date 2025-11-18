@@ -10,19 +10,19 @@
 		macos: {
 			name: 'macOS',
 			file: 'waves-macos.dmg',
-			size: '6.6 MB',
+			size: '7.1 MB',
 			icon: '🍎'
 		},
 		linux: {
 			name: 'Linux',
 			file: 'waves-linux-x86_64.tar.gz',
-			size: '5.8 MB',
+			size: '9.4 MB',
 			icon: '🐧'
 		},
 		windows: {
 			name: 'Windows',
 			file: 'waves-windows-x86_64.zip',
-			size: '5.9 MB',
+			size: '6.3 MB',
 			icon: '💻'
 		}
 	};
@@ -41,7 +41,8 @@
 	});
 
 	function getDownloadUrl(file: string): string {
-		return `/downloads/${file}`;
+		// Use GitHub releases for downloads
+		return `https://github.com/saravenpi/waves/releases/latest/download/${file}`;
 	}
 </script>
 
@@ -156,6 +157,12 @@
 						<code>r</code> - rename
 						<code>d</code> - delete
 						<code>n</code> - new folder
+					</div>
+					<div class="shortcut-group">
+						<p class="group-title">other:</p>
+						<code>?</code> - show all shortcuts
+						<code>m</code> - edit metadata
+						<code>f</code> - toggle favorite
 					</div>
 				</div>
 			</div>
