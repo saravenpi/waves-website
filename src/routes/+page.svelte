@@ -124,10 +124,12 @@
 				<h3>features</h3>
 				<ul>
 					<li>miller column file browser</li>
+					<li>4 visualization modes (spectrum, waveform, circle, agbe)</li>
+					<li>agbe: psychedelic music-reactive visualization</li>
 					<li>fft-based spectrum analyzer (64 bands)</li>
 					<li>waveform display with playback progress</li>
 					<li>mp3, wav, flac, ogg, m4a support</li>
-					<li>metadata editing for all formats</li>
+					<li>metadata editing with cover preservation</li>
 					<li>favorites system</li>
 					<li>vim-style navigation (h/j/k/l)</li>
 					<li>cross-platform (macos/linux/windows)</li>
