@@ -6,7 +6,10 @@
 <main>
 	<div class="container">
 		<div class="header fade-in">
-			<h1>keyboard shortcuts</h1>
+			<div class="title-with-icon">
+				<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1h2v8h8v4h-2v-2h-8V5h-2V3h2zM8 7V5h2v2zM6 9V7h2v2zm-2 2V9h2v2zm10 8v2h-2v2h-2v-8H2v-4h2v2h8v6zm2-2v2h-2v-2zm2-2v2h-2v-2zm0 0h2v-2h-2z"/></svg>
+				<h1>keyboard shortcuts</h1>
+			</div>
 			<a href="/" class="back-link">
 				<svg class="back-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M20 11v2H8v2H6v-2H4v-2h2V9h2v2zM10 7H8v2h2zm0 0h2V5h-2zm0 10H8v-2h2zm0 0h2v2h-2z"/></svg>
 				<span>back</span>
@@ -17,7 +20,7 @@
 			<div class="shortcut-section">
 				<h2>navigation</h2>
 				<div class="shortcut-item">
-					<code>h/j/k/l</code>
+					<code>h</code> <code>j</code> <code>k</code> <code>l</code>
 					<span>navigate</span>
 				</div>
 				<div class="shortcut-item">
@@ -112,10 +115,23 @@
 		margin-bottom: 3rem;
 	}
 
+	.title-with-icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+		margin-bottom: 1rem;
+	}
+
+	.title-with-icon svg {
+		flex-shrink: 0;
+		color: var(--text-white);
+	}
+
 	h1 {
 		font-size: 2rem;
 		letter-spacing: 0.2rem;
-		margin-bottom: 1rem;
+		margin-bottom: 0;
 		color: var(--text-white);
 		font-weight: normal;
 		text-transform: lowercase;

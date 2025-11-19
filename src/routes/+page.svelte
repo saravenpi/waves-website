@@ -67,9 +67,10 @@
 						class="download-btn primary"
 						download
 					>
-						<svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M13 17V3h-2v10H9v-2H7v2h2v2h2v2zm8 2v-4h-2v4H5v-4H3v6h18zm-8-6v2h2v-2h2v-2h-2v2z"/></svg>
+						<svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13 17V3h-2v10H9v-2H7v2h2v2h2v2zm8 2v-4h-2v4H5v-4H3v6h18zm-8-6v2h2v-2h2v-2h-2v2z"/></svg>
 						<span class="btn-text">
-							{downloads[detectedPlatform].name}
+							<span class="platform-name">{downloads[detectedPlatform].name}</span>
+							<span class="file-size">{downloads[detectedPlatform].size}</span>
 						</span>
 					</a>
 					<button class="show-all" on:click={() => (showAllDownloads = true)}>
@@ -81,8 +82,11 @@
 					<div class="download-grid">
 						{#each Object.entries(downloads) as [key, platform]}
 							<a href={getDownloadUrl(platform.file)} class="download-btn" download>
-								<svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M13 17V3h-2v10H9v-2H7v2h2v2h2v2zm8 2v-4h-2v4H5v-4H3v6h18zm-8-6v2h2v-2h2v-2h-2v2z"/></svg>
-								<span class="btn-text">{platform.name}</span>
+								<svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13 17V3h-2v10H9v-2H7v2h2v2h2v2zm8 2v-4h-2v4H5v-4H3v6h18zm-8-6v2h2v-2h2v-2h-2v2z"/></svg>
+								<span class="btn-text">
+									<span class="platform-name">{platform.name}</span>
+									<span class="file-size">{platform.size}</span>
+								</span>
 							</a>
 						{/each}
 					</div>
@@ -92,7 +96,10 @@
 
 		<div class="info fade-in delay-2">
 			<div class="info-section">
-				<h3>features</h3>
+				<h3>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 2H5v2H3v2H1v6h2v2h2v2h2v2h2v2h2v2h2v-2h2v-2h2v-2h2v-2h2v-2h2V6h-2V4h-2V2h-4v2h-2v2h-2V4H9zm0 2v2h2v2h2V6h2V4h4v2h2v6h-2v2h-2v2h-2v2h-2v2h-2v-2H9v-2H7v-2H5v-2H3V6h2V4z"/></svg>
+					<span>features</span>
+				</h3>
 				<ul>
 					<li>miller column file browser</li>
 					<li>4 visualization modes (spectrum, waveform, circle, agbe)</li>
@@ -109,7 +116,10 @@
 		</div>
 
 		<div class="shortcuts-link-section fade-in delay-3">
-			<a href="/shortcuts" class="shortcuts-link">view keyboard shortcuts →</a>
+			<a href="/shortcuts" class="shortcuts-link">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1h2v8h8v4h-2v-2h-8V5h-2V3h2zM8 7V5h2v2zM6 9V7h2v2zm-2 2V9h2v2zm10 8v2h-2v2h-2v-8H2v-4h2v2h8v6zm2-2v2h-2v-2zm2-2v2h-2v-2zm0 0h2v-2h-2z"/></svg>
+				<span>view keyboard shortcuts</span>
+			</a>
 		</div>
 
 		<footer class="fade-in delay-4">
@@ -210,7 +220,18 @@
 
 	.btn-text {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
+		gap: 0.25rem;
+	}
+
+	.platform-name {
+		font-size: inherit;
+	}
+
+	.file-size {
+		font-size: 0.75rem;
+		color: var(--text-gray);
 	}
 
 	.show-all {
@@ -254,11 +275,18 @@
 	}
 
 	.info-section h3 {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 		color: var(--text-white);
 		margin-bottom: 1rem;
 		letter-spacing: 0.1rem;
 		font-size: 0.9rem;
 		text-transform: lowercase;
+	}
+
+	.info-section h3 svg {
+		flex-shrink: 0;
 	}
 
 	.info-section ul {
@@ -283,6 +311,9 @@
 	}
 
 	.shortcuts-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
 		color: var(--text-white);
 		font-size: 0.9rem;
 		text-decoration: underline;
@@ -291,6 +322,10 @@
 
 	.shortcuts-link:hover {
 		color: var(--text-gray);
+	}
+
+	.shortcuts-link svg {
+		flex-shrink: 0;
 	}
 
 	footer {
