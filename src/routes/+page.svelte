@@ -102,8 +102,7 @@
 				</h3>
 				<ul>
 					<li>miller column file browser</li>
-					<li>4 visualization modes (spectrum, waveform, circle, agbe)</li>
-					<li>agbe: psychedelic music-reactive visualization</li>
+					<li>4 visualization modes (spectrum, waveform, circle, ...)</li>
 					<li>fft-based spectrum analyzer (64 bands)</li>
 					<li>waveform display with playback progress</li>
 					<li>mp3, wav, flac, ogg, m4a support</li>
