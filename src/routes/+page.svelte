@@ -106,42 +106,13 @@
 					<li>cross-platform (macos/linux/windows)</li>
 				</ul>
 			</div>
-
-			<div class="info-section">
-				<h3>keyboard shortcuts</h3>
-				<div class="shortcuts">
-					<div class="shortcut-group">
-						<p class="group-title">navigation:</p>
-						<code>h/j/k/l</code> - navigate
-						<code>enter/l</code> - select/play
-						<code>tab</code> - cycle views
-					</div>
-					<div class="shortcut-group">
-						<p class="group-title">playback:</p>
-						<code>space</code> - pause/resume
-						<code>←/→</code> - prev/next track
-						<code>↑/↓</code> - volume
-					</div>
-					<div class="shortcut-group">
-						<p class="group-title">file operations:</p>
-						<code>y</code> - yank (copy)
-						<code>x</code> - cut
-						<code>p</code> - paste
-						<code>r</code> - rename
-						<code>d</code> - delete
-						<code>n</code> - new folder
-					</div>
-					<div class="shortcut-group">
-						<p class="group-title">other:</p>
-						<code>?</code> - show all shortcuts
-						<code>m</code> - edit metadata
-						<code>f</code> - toggle favorite
-					</div>
-				</div>
-			</div>
 		</div>
 
-		<footer class="fade-in delay-3">
+		<div class="shortcuts-link-section fade-in delay-3">
+			<a href="/shortcuts" class="shortcuts-link">view keyboard shortcuts →</a>
+		</div>
+
+		<footer class="fade-in delay-4">
 			<p>
 				created by <a href="https://github.com/saravenpi" target="_blank" rel="noopener"
 					>@saravenpi</a
@@ -272,10 +243,10 @@
 	}
 
 	.info {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 2rem;
 		margin-bottom: 3rem;
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 	.info-section {
@@ -306,34 +277,20 @@
 		margin-right: 0.5rem;
 	}
 
-	.shortcuts {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
+	.shortcuts-link-section {
+		text-align: center;
+		margin-bottom: 3rem;
 	}
 
-	.shortcut-group {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.group-title {
-		color: var(--text-gray);
-		font-size: 0.85rem;
-		margin-bottom: 0.25rem;
-	}
-
-	code {
-		background-color: transparent;
+	.shortcuts-link {
 		color: var(--text-white);
-		padding: 0.2rem 0.5rem;
-		font-family: 'gohu', monospace;
-		font-size: 0.85rem;
-		display: inline-block;
-		margin-right: 0.5rem;
-		border: 1px solid var(--text-white);
-		border-radius: 3px;
+		font-size: 0.9rem;
+		text-decoration: underline;
+		text-transform: lowercase;
+	}
+
+	.shortcuts-link:hover {
+		color: var(--text-gray);
 	}
 
 	footer {
@@ -370,6 +327,10 @@
 
 	.delay-3 {
 		animation-delay: 0.6s;
+	}
+
+	.delay-4 {
+		animation-delay: 0.8s;
 	}
 
 	@keyframes fadeIn {
