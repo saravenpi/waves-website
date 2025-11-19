@@ -271,11 +271,13 @@
 
 	.info-section {
 		padding: 0;
+		text-align: center;
 	}
 
 	.info-section h3 {
 		display: flex;
 		align-items: center;
+		justify-content: center;
 		gap: 0.5rem;
 		color: var(--text-white);
 		margin-bottom: 1rem;
