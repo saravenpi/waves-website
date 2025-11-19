@@ -7,7 +7,10 @@
 	<div class="container">
 		<div class="header fade-in">
 			<h1>keyboard shortcuts</h1>
-			<a href="/" class="back-link">← back</a>
+			<a href="/" class="back-link">
+				<svg class="back-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M20 11v2H8v2H6v-2H4v-2h2V9h2v2zM10 7H8v2h2zm0 0h2V5h-2zm0 10H8v-2h2zm0 0h2v2h-2z"/></svg>
+				<span>back</span>
+			</a>
 		</div>
 
 		<div class="shortcuts-content fade-in delay-1">
@@ -119,13 +122,21 @@
 	}
 
 	.back-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
 		color: var(--text-gray);
 		font-size: 0.85rem;
-		text-decoration: underline;
+		text-decoration: none;
 	}
 
 	.back-link:hover {
 		color: var(--text-white);
+	}
+
+	.back-icon {
+		display: flex;
+		flex-shrink: 0;
 	}
 
 	.shortcuts-content {
