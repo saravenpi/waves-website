@@ -329,11 +329,13 @@
 	code {
 		background-color: transparent;
 		color: var(--text-white);
-		padding: 0;
+		padding: 0.2rem 0.5rem;
 		font-family: 'gohu', monospace;
 		font-size: 0.85rem;
 		display: inline-block;
 		margin-right: 0.5rem;
+		border: 1px solid var(--text-white);
+		border-radius: 3px;
 	}
 
 	footer {
