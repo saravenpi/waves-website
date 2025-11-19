@@ -11,19 +11,22 @@
 			name: 'macOS',
 			file: 'waves-macos.dmg',
 			size: '7.1 MB',
-			icon: '🍎'
+			icon: '🍎',
+			downloadIcon: '⬇'
 		},
 		linux: {
 			name: 'Linux',
 			file: 'waves-linux-x86_64.tar.gz',
 			size: '9.4 MB',
-			icon: '🐧'
+			icon: '🐧',
+			downloadIcon: '⬇'
 		},
 		windows: {
 			name: 'Windows',
 			file: 'waves-windows-x86_64.zip',
 			size: '6.3 MB',
-			icon: '💻'
+			icon: '💻',
+			downloadIcon: '⬇'
 		}
 	};
 
@@ -63,55 +66,30 @@
 			<img src="/waves_demo.png" alt="WAVES Demo" />
 		</div>
 
-		<div class="features">
-			<div class="feature">
-				<span class="icon">📁</span>
-				<span>miller column browser</span>
-			</div>
-			<div class="feature">
-				<span class="icon">📊</span>
-				<span>real-time visualization</span>
-			</div>
-			<div class="feature">
-				<span class="icon">🎵</span>
-				<span>multiple formats</span>
-			</div>
-			<div class="feature">
-				<span class="icon">⌨️</span>
-				<span>vim keybindings</span>
-			</div>
-		</div>
-
 		<div class="downloads">
 			{#if detectedPlatform !== 'unknown' && !showAllDownloads}
 				<div class="primary-download">
-					<p class="detected">detected: {downloads[detectedPlatform].name}</p>
 					<a
 						href={getDownloadUrl(downloads[detectedPlatform].file)}
 						class="download-btn primary"
 						download
 					>
-						<span class="btn-icon">{downloads[detectedPlatform].icon}</span>
+						<span class="btn-icon">{downloads[detectedPlatform].downloadIcon}</span>
 						<span class="btn-text">
-							download for {downloads[detectedPlatform].name}
-							<span class="size">({downloads[detectedPlatform].size})</span>
+							{downloads[detectedPlatform].name}
 						</span>
 					</a>
 					<button class="show-all" on:click={() => (showAllDownloads = true)}>
-						show all downloads
+						other platforms
 					</button>
 				</div>
 			{:else}
 				<div class="all-downloads">
-					<h2>download</h2>
 					<div class="download-grid">
 						{#each Object.entries(downloads) as [key, platform]}
 							<a href={getDownloadUrl(platform.file)} class="download-btn" download>
-								<span class="btn-icon">{platform.icon}</span>
-								<span class="btn-text">
-									{platform.name}
-									<span class="size">({platform.size})</span>
-								</span>
+								<span class="btn-icon">{platform.downloadIcon}</span>
+								<span class="btn-text">{platform.name}</span>
 							</a>
 						{/each}
 					</div>
@@ -209,29 +187,27 @@
 	}
 
 	.logo {
-		width: 120px;
-		height: 120px;
+		width: 100px;
+		height: 100px;
 		margin-bottom: 1rem;
 	}
 
 	h1 {
-		font-size: 3rem;
-		letter-spacing: 0.5rem;
+		font-size: 2.5rem;
+		letter-spacing: 0.3rem;
 		margin-bottom: 0.5rem;
-		color: var(--primary-color);
+		color: var(--text-white);
+		font-weight: normal;
 	}
 
 	.tagline {
 		color: var(--text-gray);
-		font-size: 0.9rem;
-		letter-spacing: 0.1rem;
+		font-size: 0.85rem;
+		letter-spacing: 0.05rem;
 	}
 
 	.screenshot {
-		margin-bottom: 3rem;
-		border: 1px solid var(--text-gray);
-		border-radius: 4px;
-		overflow: hidden;
+		margin-bottom: 4rem;
 		animation: fadeIn 0.8s ease 0.2s both;
 	}
 
@@ -239,32 +215,6 @@
 		width: 100%;
 		height: auto;
 		display: block;
-	}
-
-	.features {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-		gap: 1.5rem;
-		margin-bottom: 3rem;
-		animation: fadeIn 0.8s ease 0.4s both;
-	}
-
-	.feature {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		padding: 1rem;
-		border: 1px solid var(--text-gray);
-		border-radius: 4px;
-		transition: border-color 0.2s ease;
-	}
-
-	.feature:hover {
-		border-color: var(--primary-color);
-	}
-
-	.feature .icon {
-		font-size: 1.5rem;
 	}
 
 	.downloads {
@@ -276,74 +226,55 @@
 		text-align: center;
 	}
 
-	.detected {
-		color: var(--text-gray);
-		font-size: 0.85rem;
-		margin-bottom: 1rem;
-	}
-
 	.download-btn {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.75rem;
-		padding: 1rem 2rem;
+		gap: 0.5rem;
+		padding: 0.75rem 2rem;
 		background-color: transparent;
-		border: 2px solid var(--primary-color);
+		border: 1px solid var(--text-white);
 		color: var(--text-white);
-		font-size: 1rem;
-		border-radius: 4px;
+		font-size: 0.9rem;
+		border-radius: 0;
 		margin: 0.5rem;
-		transition: all 0.2s ease;
+		transition: all 0.15s ease;
+		text-transform: lowercase;
 	}
 
 	.download-btn:hover {
-		background-color: var(--primary-color);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(150, 100, 255, 0.3);
+		background-color: var(--text-white);
+		color: #000;
 	}
 
 	.download-btn.primary {
-		font-size: 1.1rem;
-		padding: 1.25rem 2.5rem;
+		font-size: 1rem;
+		padding: 1rem 2.5rem;
+		border: 1px solid var(--text-white);
 	}
 
 	.btn-icon {
-		font-size: 1.5rem;
+		font-size: 1.2rem;
 	}
 
 	.btn-text {
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-	}
-
-	.size {
-		font-size: 0.75rem;
-		color: var(--text-gray);
-		margin-top: 0.25rem;
+		align-items: center;
 	}
 
 	.show-all {
 		display: block;
 		margin: 1.5rem auto 0;
 		background: transparent;
-		border: 1px solid var(--text-gray);
+		border: none;
 		color: var(--text-gray);
 		padding: 0.5rem 1rem;
 		font-size: 0.85rem;
-		border-radius: 4px;
+		text-decoration: underline;
+		cursor: pointer;
 	}
 
 	.show-all:hover {
-		border-color: var(--text-white);
 		color: var(--text-white);
-	}
-
-	.all-downloads h2 {
-		text-align: center;
-		margin-bottom: 1.5rem;
-		color: var(--primary-color);
-		letter-spacing: 0.2rem;
 	}
 
 	.download-grid {
@@ -368,15 +299,15 @@
 	}
 
 	.info-section {
-		border: 1px solid var(--text-gray);
-		padding: 1.5rem;
-		border-radius: 4px;
+		padding: 0;
 	}
 
 	.info-section h3 {
-		color: var(--primary-color);
+		color: var(--text-white);
 		margin-bottom: 1rem;
 		letter-spacing: 0.1rem;
+		font-size: 0.9rem;
+		text-transform: lowercase;
 	}
 
 	.info-section ul {
@@ -385,17 +316,13 @@
 	}
 
 	.info-section li {
-		padding: 0.5rem 0;
-		border-bottom: 1px solid #222;
-	}
-
-	.info-section li:last-child {
-		border-bottom: none;
+		padding: 0.4rem 0;
+		color: var(--text-gray);
+		font-size: 0.9rem;
 	}
 
 	.info-section li::before {
-		content: '→ ';
-		color: var(--primary-color);
+		content: '- ';
 		margin-right: 0.5rem;
 	}
 
@@ -418,10 +345,9 @@
 	}
 
 	code {
-		background-color: #111;
-		color: var(--primary-color);
-		padding: 0.25rem 0.5rem;
-		border-radius: 2px;
+		background-color: transparent;
+		color: var(--text-white);
+		padding: 0;
 		font-family: 'gohu', monospace;
 		font-size: 0.85rem;
 		display: inline-block;
@@ -430,8 +356,7 @@
 
 	footer {
 		text-align: center;
-		padding: 2rem 0;
-		border-top: 1px solid var(--text-gray);
+		padding: 3rem 0 2rem;
 		color: var(--text-gray);
 		animation: fadeIn 0.8s ease 1s both;
 	}
@@ -441,7 +366,12 @@
 	}
 
 	.source-link {
-		font-size: 0.9rem;
+		font-size: 0.85rem;
+		text-decoration: underline;
+	}
+
+	.source-link:hover {
+		color: var(--text-white);
 	}
 
 	@keyframes fadeIn {
