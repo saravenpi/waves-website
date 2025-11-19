@@ -12,21 +12,21 @@
 			file: 'waves-macos.dmg',
 			size: '7.1 MB',
 			icon: '🍎',
-			downloadIcon: '⬇'
+			downloadIcon: '↓'
 		},
 		linux: {
 			name: 'Linux',
 			file: 'waves-linux-x86_64.tar.gz',
 			size: '9.4 MB',
 			icon: '🐧',
-			downloadIcon: '⬇'
+			downloadIcon: '↓'
 		},
 		windows: {
 			name: 'Windows',
 			file: 'waves-windows-x86_64.zip',
 			size: '6.3 MB',
 			icon: '💻',
-			downloadIcon: '⬇'
+			downloadIcon: '↓'
 		}
 	};
 
@@ -56,17 +56,13 @@
 
 <main>
 	<div class="container">
-		<div class="header">
+		<div class="header fade-in">
 			<img src="/waves_logo.png" alt="WAVES Logo" class="logo" />
 			<h1>WAVES</h1>
 			<p class="tagline">cross-platform audio player</p>
 		</div>
 
-		<div class="screenshot">
-			<img src="/waves_demo.png" alt="WAVES Demo" />
-		</div>
-
-		<div class="downloads">
+		<div class="downloads fade-in delay-1">
 			{#if detectedPlatform !== 'unknown' && !showAllDownloads}
 				<div class="primary-download">
 					<a
@@ -97,7 +93,7 @@
 			{/if}
 		</div>
 
-		<div class="info">
+		<div class="info fade-in delay-2">
 			<div class="info-section">
 				<h3>features</h3>
 				<ul>
@@ -148,7 +144,7 @@
 			</div>
 		</div>
 
-		<footer>
+		<footer class="fade-in delay-3">
 			<p>
 				created by <a href="https://github.com/saravenpi" target="_blank" rel="noopener"
 					>@saravenpi</a
@@ -183,7 +179,6 @@
 	.header {
 		text-align: center;
 		margin-bottom: 3rem;
-		animation: fadeIn 0.6s ease;
 	}
 
 	.logo {
@@ -206,20 +201,8 @@
 		letter-spacing: 0.05rem;
 	}
 
-	.screenshot {
-		margin-bottom: 4rem;
-		animation: fadeIn 0.8s ease 0.2s both;
-	}
-
-	.screenshot img {
-		width: 100%;
-		height: auto;
-		display: block;
-	}
-
 	.downloads {
 		margin-bottom: 3rem;
-		animation: fadeIn 0.8s ease 0.6s both;
 	}
 
 	.primary-download {
@@ -295,7 +278,6 @@
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		gap: 2rem;
 		margin-bottom: 3rem;
-		animation: fadeIn 0.8s ease 0.8s both;
 	}
 
 	.info-section {
@@ -358,7 +340,6 @@
 		text-align: center;
 		padding: 3rem 0 2rem;
 		color: var(--text-gray);
-		animation: fadeIn 0.8s ease 1s both;
 	}
 
 	footer p {
@@ -374,10 +355,27 @@
 		color: var(--text-white);
 	}
 
+	.fade-in {
+		opacity: 0;
+		animation: fadeIn 0.8s ease forwards;
+	}
+
+	.delay-1 {
+		animation-delay: 0.2s;
+	}
+
+	.delay-2 {
+		animation-delay: 0.4s;
+	}
+
+	.delay-3 {
+		animation-delay: 0.6s;
+	}
+
 	@keyframes fadeIn {
 		from {
 			opacity: 0;
-			transform: translateY(20px);
+			transform: translateY(15px);
 		}
 		to {
 			opacity: 1;
