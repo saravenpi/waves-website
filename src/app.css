@@ -1,6 +1,6 @@
 @font-face {
-	font-family: 'gohu';
-	src: url('/fonts/gohu.ttf') format('truetype');
+	font-family: 'Undefined';
+	src: url('/fonts/undefined-medium.otf') format('opentype');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -24,7 +24,7 @@ body {
 	height: 100%;
 	background-color: var(--bg-black);
 	color: var(--text-white);
-	font-family: 'gohu', monospace;
+	font-family: 'Undefined', monospace;
 	overflow-x: hidden;
 }
 
@@ -46,7 +46,7 @@ a:hover {
 }
 
 button {
-	font-family: 'gohu', monospace;
+	font-family: 'Undefined', monospace;
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
