@@ -9,8 +9,8 @@
 	const downloads = {
 		macos: {
 			name: 'macOS',
-			file: 'waves-macos.dmg',
-			size: '7.1 MB',
+			file: 'waves-macos.tar.gz',
+			size: '8.4 MB',
 			icon: '🍎'
 		},
 		linux: {
@@ -22,7 +22,7 @@
 		windows: {
 			name: 'Windows',
 			file: 'waves-windows-x86_64.zip',
-			size: '6.3 MB',
+			size: '8.0 MB',
 			icon: '💻'
 		}
 	};
