@@ -203,12 +203,12 @@
 		opacity: 1;
 	}
 	.brand-mark {
-		width: 26px;
-		height: 26px;
+		width: 30px;
+		height: 30px;
 	}
 	.brand-name {
-		font-size: 1rem;
-		letter-spacing: 0.28em;
+		font-size: 1.45rem;
+		letter-spacing: 0.22em;
 		padding-left: 0.1em;
 	}
 	.topnav {
