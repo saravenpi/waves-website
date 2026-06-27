@@ -58,10 +58,10 @@
 </script>
 
 <svelte:head>
-	<title>WAVES — a music player that listens back</title>
+	<title>Waves — a music player that listens back</title>
 	<meta
 		name="description"
-		content="WAVES is a minimalist, local-only music player with real-time audio visualizers and vim-style navigation. No cloud, no accounts."
+		content="Waves is a minimalist, local-only music player with real-time audio visualizers and vim-style navigation. No cloud, no accounts."
 	/>
 </svelte:head>
 
@@ -69,7 +69,7 @@
 	<header class="topbar fade-in">
 		<a class="brand" href="/" aria-label="Waves home">
 			<img src="/logo.svg" alt="" class="brand-mark" />
-			<span class="brand-name">WAVES</span>
+			<span class="brand-name">Waves</span>
 		</a>
 		<nav class="topnav">
 			<a href="/shortcuts">shortcuts</a>
