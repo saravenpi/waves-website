@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import BackgroundSpectrum from '$lib/BackgroundSpectrum.svelte';
 
 	type Platform = 'macos' | 'linux' | 'windows' | 'unknown';
 
@@ -27,32 +28,38 @@
 		{
 			label: 'browser',
 			title: 'Miller-column browser',
-			desc: 'Cascade through your library column by column. Fast, keyboard-first navigation that never makes you lose your place.'
+			desc: 'Cascade through your library column by column. Fast, keyboard-first navigation that never makes you lose your place.',
+			icon: '<path d="M4 4h6v2H4zm0 14h16v2H4zM20 8h2v10h-2zM2 6h2v12H2zm8 0h10v2H10z"/>'
 		},
 		{
 			label: 'visualizers',
 			title: 'Real-time FFT',
-			desc: 'Four live visualization modes — spectrum, waveform, circle and more — driven by an FFT engine reacting to every beat.'
+			desc: 'Four live visualization modes — spectrum, waveform, circle and more — driven by an FFT engine reacting to every beat.',
+			icon: '<path d="M4 2h16v2H4zm0 18h16v2H4zM2 4h2v16H2zm18 0h2v16h-2zM7 11h2v6H7zm4-4h2v10h-2zm4 6h2v4h-2z"/>'
 		},
 		{
 			label: 'spectrum',
 			title: '64-band analyzer',
-			desc: 'A 64-band spectrum analyzer and a waveform display tracking playback progress with frame-accurate precision.'
+			desc: 'A 64-band spectrum analyzer and a waveform display tracking playback progress with frame-accurate precision.',
+			icon: '<path d="M13 5h2v14h-2zm-2 4H9v10h2zm-4 4H5v6h2zm12 0h-2v6h2z"/>'
 		},
 		{
 			label: 'formats',
 			title: 'Broad format support',
-			desc: 'Plays MP3, FLAC, WAV, OGG and M4A out of the box. Your collection, untouched and uncompressed.'
+			desc: 'Plays MP3, FLAC, WAV, OGG and M4A out of the box. Your collection, untouched and uncompressed.',
+			icon: '<path d="M4 12h4v2H4zm-2 2h2v4H2zm2 4h4v2H4zM8 6h2v12H8zm10 0h2v12h-2zm-6 8h2v4h-2zm2-2h4v2h-4zm0 6h4v2h-4zM10 4h8v2h-8z"/>'
 		},
 		{
 			label: 'metadata',
 			title: 'Metadata & favorites',
-			desc: 'Edit tags in place with cover-art preservation, and star the tracks you live on with the favorites system.'
+			desc: 'Edit tags in place with cover-art preservation, and star the tracks you live on with the favorites system.',
+			icon: '<path d="M13 22h-2v-2h2zm-2-2H9v-2h2zm4 0h-2v-2h2zm-6-2H7v-2h2zm8 0h-2v-2h2zM7 16H5v-2h2zm12 0h-2v-2h2zM5 14H3v-2h2zm16 0h-2v-2h2zM3 12H1V6h2zm20 0h-2V6h2zM13 8h-2V6h2zM5 6H3V4h2zm6 0H9V4h2zm4 0h-2V4h2zm6 0h-2V4h2zM9 4H5V2h4zm10 0h-4V2h4z"/>'
 		},
 		{
 			label: 'keys',
 			title: 'Vim-style navigation',
-			desc: 'h / j / k / l movement, modal controls and shortcuts for everything. Hands stay on the home row.'
+			desc: 'h / j / k / l movement, modal controls and shortcuts for everything. Hands stay on the home row.',
+			icon: '<path d="M21 3H3v18h18zM5 19V5h14v14zM9 7H7v2h2zm8 8H7v2h10zm-2-8h2v2h-2zm-2 0h-2v2h2zm-6 4h2v2H7zm10 0h-2v2h2zm-6 0h2v2h-2z"/>'
 		}
 	];
 </script>
@@ -64,6 +71,8 @@
 		content="Waves is a minimalist, local-only music player with real-time audio visualizers and vim-style navigation. No cloud, no accounts."
 	/>
 </svelte:head>
+
+<BackgroundSpectrum />
 
 <main>
 	<header class="topbar fade-in">
@@ -129,7 +138,12 @@
 		<div class="feature-grid">
 			{#each features as f, i}
 				<article class="feature fade-in" style="animation-delay:{0.05 * i}s">
-					<span class="feature-label">{f.label}</span>
+					<div class="feature-top">
+						<svg class="feature-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+							>{@html f.icon}</svg
+						>
+						<span class="feature-label">{f.label}</span>
+					</div>
 					<h3>{f.title}</h3>
 					<p>{f.desc}</p>
 				</article>
@@ -410,6 +424,19 @@
 	.feature:hover {
 		background: var(--bg-elev);
 	}
+	.feature-top {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-bottom: 1rem;
+	}
+	.feature-icon {
+		width: 22px;
+		height: 22px;
+		flex-shrink: 0;
+		color: var(--accent);
+		shape-rendering: crispEdges;
+	}
 	.feature-label {
 		font-family: var(--mono);
 		font-size: 0.7rem;
@@ -540,11 +567,21 @@
 		main {
 			padding: 0 1.1rem 3rem;
 		}
+		.topbar {
+			flex-wrap: wrap;
+			gap: 0.8rem;
+		}
 		.hero {
 			padding: 3.5rem 0.5rem 4.5rem;
 		}
+		.wordmark {
+			letter-spacing: 0.02em;
+		}
 		.feature-grid {
 			grid-template-columns: 1fr;
+		}
+		.feature {
+			padding: 1.6rem 1.4rem 1.8rem;
 		}
 		.download {
 			width: 100%;
@@ -569,6 +606,17 @@
 		.download.compact {
 			width: 100%;
 			justify-content: center;
+		}
+	}
+	@media (max-width: 460px) {
+		.hero {
+			padding: 2.5rem 0.25rem 3.5rem;
+		}
+		.section-head {
+			margin-bottom: 1.8rem;
+		}
+		.closing {
+			padding: 4rem 0.5rem 3.5rem;
 		}
 	}
 </style>
