@@ -4,375 +4,565 @@
 	type Platform = 'macos' | 'linux' | 'windows' | 'unknown';
 
 	let detectedPlatform: Platform = 'unknown';
-	let showAllDownloads = false;
+	let showOther = false;
 
-	const downloads = {
-		macos: {
-			name: 'macOS',
-			file: 'waves-macos.tar.gz',
-			size: '8.4 MB',
-			icon: '🍎'
-		},
-		linux: {
-			name: 'Linux',
-			file: 'waves-linux-x86_64.tar.gz',
-			size: '9.4 MB',
-			icon: '🐧'
-		},
-		windows: {
-			name: 'Windows',
-			file: 'waves-windows-x86_64.zip',
-			size: '8.0 MB',
-			icon: '💻'
-		}
-	};
+	const MAC_DMG = '/downloads/Waves-aarch64.dmg';
+	const GH_LATEST = 'https://github.com/saravenpi/waves/releases/latest/download';
+
+	const otherPlatforms = [
+		{ id: 'linux', name: 'Linux', detail: 'x86_64 · .tar.gz', file: 'waves-linux-x86_64.tar.gz' },
+		{ id: 'windows', name: 'Windows', detail: 'x86_64 · .zip', file: 'waves-windows-x86_64.zip' },
+		{ id: 'macos-intel', name: 'Intel Mac', detail: 'x86_64 · .dmg', file: 'waves-macos.dmg' }
+	];
 
 	onMount(() => {
-		const userAgent = navigator.userAgent.toLowerCase();
-		const platform = navigator.platform?.toLowerCase() || '';
-
-		if (userAgent.includes('mac') || platform.includes('mac')) {
-			detectedPlatform = 'macos';
-		} else if (userAgent.includes('linux') || platform.includes('linux')) {
-			detectedPlatform = 'linux';
-		} else if (userAgent.includes('win') || platform.includes('win')) {
-			detectedPlatform = 'windows';
-		}
+		const ua = navigator.userAgent.toLowerCase();
+		const plat = (navigator.platform || '').toLowerCase();
+		if (ua.includes('mac') || plat.includes('mac')) detectedPlatform = 'macos';
+		else if (ua.includes('linux') || plat.includes('linux')) detectedPlatform = 'linux';
+		else if (ua.includes('win') || plat.includes('win')) detectedPlatform = 'windows';
 	});
 
-	function getDownloadUrl(file: string): string {
-		// Use GitHub releases for downloads
-		return `https://github.com/saravenpi/waves/releases/latest/download/${file}`;
-	}
+	const features = [
+		{
+			label: 'browser',
+			title: 'Miller-column browser',
+			desc: 'Cascade through your library column by column. Fast, keyboard-first navigation that never makes you lose your place.'
+		},
+		{
+			label: 'visualizers',
+			title: 'Real-time FFT',
+			desc: 'Four live visualization modes — spectrum, waveform, circle and more — driven by an FFT engine reacting to every beat.'
+		},
+		{
+			label: 'spectrum',
+			title: '64-band analyzer',
+			desc: 'A 64-band spectrum analyzer and a waveform display tracking playback progress with frame-accurate precision.'
+		},
+		{
+			label: 'formats',
+			title: 'Broad format support',
+			desc: 'Plays MP3, FLAC, WAV, OGG and M4A out of the box. Your collection, untouched and uncompressed.'
+		},
+		{
+			label: 'metadata',
+			title: 'Metadata & favorites',
+			desc: 'Edit tags in place with cover-art preservation, and star the tracks you live on with the favorites system.'
+		},
+		{
+			label: 'keys',
+			title: 'Vim-style navigation',
+			desc: 'h / j / k / l movement, modal controls and shortcuts for everything. Hands stay on the home row.'
+		}
+	];
 </script>
 
 <svelte:head>
-	<title>WAVES - Audio Player</title>
-	<meta name="description" content="A cross-platform GUI music player with real-time visualization" />
+	<title>WAVES — a music player that listens back</title>
+	<meta
+		name="description"
+		content="WAVES is a minimalist, local-only music player with real-time audio visualizers and vim-style navigation. No cloud, no accounts."
+	/>
 </svelte:head>
 
 <main>
-	<div class="container">
-		<div class="header fade-in">
-			<img src="/waves_logo.png" alt="WAVES Logo" class="logo" />
-			<h1>WAVES</h1>
-			<p class="tagline">cross-platform audio player</p>
+	<header class="topbar fade-in">
+		<a class="brand" href="/" aria-label="Waves home">
+			<img src="/logo.svg" alt="" class="brand-mark" />
+			<span class="brand-name">WAVES</span>
+		</a>
+		<nav class="topnav">
+			<a href="/shortcuts">shortcuts</a>
+			<a href="https://github.com/saravenpi/waves" target="_blank" rel="noopener">github</a>
+		</nav>
+	</header>
+
+	<section class="hero">
+		<div class="hero-glow" aria-hidden="true"></div>
+
+		<div class="eq fade-in" aria-hidden="true">
+			{#each Array(13) as _, i}
+				<span style="--i:{i}"></span>
+			{/each}
 		</div>
 
-		<div class="downloads fade-in delay-1">
-			{#if detectedPlatform !== 'unknown' && !showAllDownloads}
-				<div class="primary-download">
-					<a
-						href={getDownloadUrl(downloads[detectedPlatform].file)}
-						class="download-btn primary"
-						download
-					>
-						<svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13 17V3h-2v10H9v-2H7v2h2v2h2v2zm8 2v-4h-2v4H5v-4H3v6h18zm-8-6v2h2v-2h2v-2h-2v2z"/></svg>
-						<span class="btn-text">
-							<span class="platform-name">{downloads[detectedPlatform].name}</span>
-							<span class="file-size">{downloads[detectedPlatform].size}</span>
-						</span>
-					</a>
-					<button class="show-all" on:click={() => (showAllDownloads = true)}>
-						other platforms
-					</button>
-				</div>
-			{:else}
-				<div class="all-downloads">
-					<div class="download-grid">
-						{#each Object.entries(downloads) as [key, platform]}
-							<a href={getDownloadUrl(platform.file)} class="download-btn" download>
-								<svg class="download-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M13 17V3h-2v10H9v-2H7v2h2v2h2v2zm8 2v-4h-2v4H5v-4H3v6h18zm-8-6v2h2v-2h2v-2h-2v2z"/></svg>
-								<span class="btn-text">
-									<span class="platform-name">{platform.name}</span>
-									<span class="file-size">{platform.size}</span>
-								</span>
-							</a>
-						{/each}
-					</div>
+		<img src="/logo.svg" alt="WAVES logo" class="hero-mark fade-in delay-1" />
+		<h1 class="wordmark fade-in delay-1">WAVES</h1>
+		<p class="tagline fade-in delay-2">A music player that listens back.</p>
+		<p class="subtagline fade-in delay-2">
+			Local-first. Real-time visualizers. No cloud, no accounts — just your library.
+		</p>
+
+		<div class="cta fade-in delay-3">
+			<a class="download" href={MAC_DMG} download>
+				<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"
+					><path
+						fill="currentColor"
+						d="M16.365 1.43c0 1.14-.42 2.205-1.12 2.99c-.78.875-2.04 1.55-3.04 1.47c-.13-1.1.42-2.27 1.07-2.99c.74-.815 2.04-1.43 3.09-1.47M20.5 17.06c-.55 1.28-.82 1.85-1.53 2.98c-.99 1.58-2.38 3.54-4.1 3.55c-1.53.02-1.93-.99-4-.98c-2.07.01-2.5 1-4.04.97c-1.72-.01-3.04-1.78-4.03-3.36c-2.78-4.42-3.07-9.6-1.36-12.35c1.22-1.95 3.14-3.1 4.95-3.1c1.84 0 3 1 4.52 1c1.47 0 2.37-1 4.5-1c1.61 0 3.32.88 4.54 2.4c-3.99 2.18-3.34 7.88.55 9.29"
+					/></svg
+				>
+				<span class="download-text">
+					<span class="download-main">Download for Mac</span>
+					<span class="download-sub">Apple Silicon · .dmg</span>
+				</span>
+			</a>
+			<p class="cta-note">macOS 11+ · Apple Silicon · free &amp; open source</p>
+
+			<button class="other-toggle" on:click={() => (showOther = !showOther)} aria-expanded={showOther}>
+				{showOther ? '− hide other platforms' : '+ other platforms'}
+			</button>
+
+			{#if showOther}
+				<div class="other-grid">
+					{#each otherPlatforms as p}
+						<a class="other-link" class:detected={detectedPlatform === p.id} href={`${GH_LATEST}/${p.file}`} download>
+							<span class="other-name">
+								{p.name}
+								{#if detectedPlatform === p.id}<span class="tag">detected</span>{/if}
+							</span>
+							<span class="other-detail">{p.detail}</span>
+						</a>
+					{/each}
 				</div>
 			{/if}
 		</div>
+	</section>
 
-		<div class="info fade-in delay-2">
-			<div class="info-section">
-				<h3>
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 2H5v2H3v2H1v6h2v2h2v2h2v2h2v2h2v2h2v-2h2v-2h2v-2h2v-2h2v-2h2V6h-2V4h-2V2h-4v2h-2v2h-2V4H9zm0 2v2h2v2h2V6h2V4h4v2h2v6h-2v2h-2v2h-2v2h-2v2h-2v-2H9v-2H7v-2H5v-2H3V6h2V4z"/></svg>
-					<span>features</span>
-				</h3>
-				<ul>
-					<li>miller column file browser</li>
-					<li>4 visualization modes (spectrum, waveform, circle, ...)</li>
-					<li>fft-based spectrum analyzer (64 bands)</li>
-					<li>waveform display with playback progress</li>
-					<li>mp3, wav, flac, ogg, m4a support</li>
-					<li>metadata editing with cover preservation</li>
-					<li>favorites system</li>
-					<li>vim-style navigation (h/j/k/l)</li>
-					<li>cross-platform (macos/linux/windows)</li>
-				</ul>
-			</div>
+	<section class="features">
+		<div class="section-head fade-in">
+			<span class="kicker">// features</span>
+			<h2>Built for people who actually listen.</h2>
 		</div>
+		<div class="feature-grid">
+			{#each features as f, i}
+				<article class="feature fade-in" style="animation-delay:{0.05 * i}s">
+					<span class="feature-label">{f.label}</span>
+					<h3>{f.title}</h3>
+					<p>{f.desc}</p>
+				</article>
+			{/each}
+		</div>
+	</section>
 
-		<div class="shortcuts-link-section fade-in delay-3">
-			<a href="/shortcuts" class="shortcuts-link">
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1h2v8h8v4h-2v-2h-8V5h-2V3h2zM8 7V5h2v2zM6 9V7h2v2zm-2 2V9h2v2zm10 8v2h-2v2h-2v-8H2v-4h2v2h8v6zm2-2v2h-2v-2zm2-2v2h-2v-2zm0 0h2v-2h-2z"/></svg>
-				<span>view keyboard shortcuts</span>
+	<section class="closing fade-in">
+		<div class="closing-glow" aria-hidden="true"></div>
+		<h2>Your music. Your machine. Nothing else.</h2>
+		<div class="closing-cta">
+			<a class="download compact" href={MAC_DMG} download>
+				<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+					><path
+						fill="currentColor"
+						d="M16.365 1.43c0 1.14-.42 2.205-1.12 2.99c-.78.875-2.04 1.55-3.04 1.47c-.13-1.1.42-2.27 1.07-2.99c.74-.815 2.04-1.43 3.09-1.47M20.5 17.06c-.55 1.28-.82 1.85-1.53 2.98c-.99 1.58-2.38 3.54-4.1 3.55c-1.53.02-1.93-.99-4-.98c-2.07.01-2.5 1-4.04.97c-1.72-.01-3.04-1.78-4.03-3.36c-2.78-4.42-3.07-9.6-1.36-12.35c1.22-1.95 3.14-3.1 4.95-3.1c1.84 0 3 1 4.52 1c1.47 0 2.37-1 4.5-1c1.61 0 3.32.88 4.54 2.4c-3.99 2.18-3.34 7.88.55 9.29"
+					/></svg
+				>
+				Download for Mac
 			</a>
+			<a class="ghost" href="/shortcuts">View keyboard shortcuts →</a>
 		</div>
+	</section>
 
-		<footer class="fade-in delay-4">
-			<p>
-				created by <a href="https://github.com/saravenpi" target="_blank" rel="noopener"
-					>@saravenpi</a
-				>
-			</p>
-			<p>
-				<a
-					href="https://github.com/saravenpi/waves"
-					target="_blank"
-					rel="noopener"
-					class="source-link">view source on github →</a
-				>
-			</p>
-		</footer>
-	</div>
+	<footer>
+		<span>created by <a href="https://github.com/saravenpi" target="_blank" rel="noopener">@saravenpi</a></span>
+		<a href="https://github.com/saravenpi/waves" target="_blank" rel="noopener">source on github →</a>
+	</footer>
 </main>
 
 <style>
 	main {
 		width: 100%;
-		min-height: 100vh;
+		max-width: 1040px;
+		margin: 0 auto;
+		padding: 0 1.5rem 4rem;
+	}
+
+	/* ---------- top bar ---------- */
+	.topbar {
 		display: flex;
-		justify-content: center;
-		padding: 2rem 1rem;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.6rem 0;
+		position: relative;
+		z-index: 2;
 	}
-
-	.container {
-		max-width: 900px;
-		width: 100%;
-	}
-
-	.header {
-		text-align: center;
-		margin-bottom: 3rem;
-	}
-
-	.logo {
-		width: 100px;
-		height: 100px;
-		margin-bottom: 1rem;
-	}
-
-	h1 {
-		font-size: 2.5rem;
-		letter-spacing: 0.3rem;
-		margin-bottom: 0.5rem;
-		color: var(--text-white);
-		font-weight: normal;
-	}
-
-	.tagline {
-		color: var(--text-gray);
-		font-size: 0.85rem;
-		letter-spacing: 0.05rem;
-	}
-
-	.downloads {
-		margin-bottom: 3rem;
-	}
-
-	.primary-download {
-		text-align: center;
-	}
-
-	.download-btn {
+	.brand {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-		padding: 0.75rem 2rem;
-		background-color: transparent;
-		border: 1px solid var(--text-white);
+		gap: 0.6rem;
 		color: var(--text-white);
-		font-size: 0.9rem;
-		border-radius: 0;
-		margin: 0.5rem;
-		transition: all 0.15s ease;
-		text-transform: lowercase;
 	}
-
-	.download-btn:hover {
-		background-color: var(--text-white);
-		color: #000;
+	.brand:hover {
+		opacity: 1;
 	}
-
-	.download-btn.primary {
+	.brand-mark {
+		width: 26px;
+		height: 26px;
+	}
+	.brand-name {
 		font-size: 1rem;
-		padding: 1rem 2.5rem;
-		border: 1px solid var(--text-white);
+		letter-spacing: 0.28em;
+		padding-left: 0.1em;
 	}
-
-	.download-icon {
+	.topnav {
 		display: flex;
-		flex-shrink: 0;
+		gap: 1.6rem;
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		letter-spacing: 0.05em;
+	}
+	.topnav a {
+		color: var(--text-gray);
+	}
+	.topnav a:hover {
+		color: var(--text-white);
+		opacity: 1;
 	}
 
-	.btn-text {
+	/* ---------- hero ---------- */
+	.hero {
+		position: relative;
+		text-align: center;
+		padding: 6rem 1rem 7rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.25rem;
+	}
+	.hero-glow {
+		position: absolute;
+		top: 8%;
+		left: 50%;
+		width: 620px;
+		height: 620px;
+		max-width: 110vw;
+		transform: translateX(-50%);
+		background: radial-gradient(circle, var(--accent-glow) 0%, transparent 62%);
+		opacity: 0.5;
+		filter: blur(20px);
+		pointer-events: none;
+		z-index: 0;
+	}
+	.hero > *:not(.hero-glow) {
+		position: relative;
+		z-index: 1;
 	}
 
-	.platform-name {
-		font-size: inherit;
+	.eq {
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		gap: 5px;
+		height: 54px;
+		margin-bottom: 2.4rem;
+	}
+	.eq span {
+		width: 4px;
+		height: 100%;
+		background: linear-gradient(to top, var(--accent), rgba(150, 100, 255, 0.25));
+		border-radius: 2px;
+		transform-origin: bottom;
+		animation: bounce 1.3s ease-in-out infinite;
+		animation-delay: calc(var(--i) * -0.11s);
+	}
+	@keyframes bounce {
+		0%,
+		100% {
+			transform: scaleY(0.18);
+			opacity: 0.55;
+		}
+		50% {
+			transform: scaleY(1);
+			opacity: 1;
+		}
 	}
 
-	.file-size {
-		font-size: 0.75rem;
+	.hero-mark {
+		width: 64px;
+		height: 64px;
+		margin-bottom: 1.4rem;
+		filter: drop-shadow(0 0 24px var(--accent-glow));
+	}
+	.wordmark {
+		font-size: clamp(3.2rem, 11vw, 6.5rem);
+		line-height: 0.95;
+		letter-spacing: 0.12em;
+		font-weight: normal;
+		padding-left: 0.12em;
+		margin-bottom: 1.4rem;
+	}
+	.tagline {
+		font-size: clamp(1.15rem, 3.2vw, 1.7rem);
+		color: var(--text-white);
+		margin-bottom: 0.6rem;
+	}
+	.subtagline {
+		font-family: var(--mono);
+		font-size: 0.85rem;
+		letter-spacing: 0.02em;
 		color: var(--text-gray);
+		max-width: 30rem;
+		line-height: 1.6;
 	}
 
-	.show-all {
-		display: block;
-		margin: 1.5rem auto 0;
+	/* ---------- download cta ---------- */
+	.cta {
+		margin-top: 2.6rem;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.download {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.85rem;
+		padding: 1rem 2rem;
+		background: var(--text-white);
+		color: #000;
+		border: 1px solid var(--text-white);
+		letter-spacing: 0.02em;
+		transition: transform 0.18s ease, box-shadow 0.25s ease, background 0.2s ease;
+	}
+	.download:hover {
+		opacity: 1;
+		transform: translateY(-2px);
+		box-shadow: 0 0 0 1px var(--accent), 0 18px 50px -18px var(--accent-glow);
+	}
+	.download svg {
+		flex-shrink: 0;
+	}
+	.download-text {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		line-height: 1.15;
+	}
+	.download-main {
+		font-size: 1.02rem;
+	}
+	.download-sub {
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.04em;
+		color: #555;
+	}
+	.cta-note {
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		letter-spacing: 0.04em;
+		color: var(--text-dim);
+		margin-top: 1rem;
+	}
+	.other-toggle {
+		margin-top: 1.6rem;
 		background: transparent;
 		border: none;
 		color: var(--text-gray);
-		padding: 0.5rem 1rem;
-		font-size: 0.85rem;
-		text-decoration: underline;
-		cursor: pointer;
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.04em;
 	}
-
-	.show-all:hover {
+	.other-toggle:hover {
 		color: var(--text-white);
+		transform: none;
 	}
-
-	.download-grid {
+	.other-grid {
+		margin-top: 1.2rem;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0.6rem;
+		width: 100%;
+		max-width: 560px;
+	}
+	.other-link {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
-		max-width: 500px;
-		margin: 0 auto;
+		gap: 0.3rem;
+		padding: 0.85rem 1rem;
+		border: 1px solid var(--line);
+		color: var(--text-white);
+		text-align: left;
+		transition: border-color 0.2s ease, background 0.2s ease;
+	}
+	.other-link:hover {
+		opacity: 1;
+		border-color: var(--line-strong);
+		background: var(--bg-elev);
+	}
+	.other-link.detected {
+		border-color: var(--accent);
+		background: var(--accent-dim);
+	}
+	.other-name {
+		font-size: 0.9rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.tag {
+		font-family: var(--mono);
+		font-size: 0.6rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--accent);
+		border: 1px solid var(--accent);
+		padding: 0.05rem 0.35rem;
+		border-radius: 2px;
+	}
+	.other-detail {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.03em;
+		color: var(--text-gray);
 	}
 
-	.download-grid .download-btn {
-		width: 100%;
-		justify-content: center;
+	/* ---------- features ---------- */
+	.features {
+		padding-top: 2rem;
+		border-top: 1px solid var(--line);
+	}
+	.section-head {
+		margin-bottom: 2.8rem;
+	}
+	.kicker {
+		display: block;
+		font-family: var(--mono);
+		font-size: 0.74rem;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin-bottom: 0.9rem;
+	}
+	.section-head h2 {
+		font-size: clamp(1.6rem, 4vw, 2.4rem);
+		font-weight: normal;
+		letter-spacing: 0.01em;
+		max-width: 24ch;
+		line-height: 1.15;
+	}
+	.feature-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		border-top: 1px solid var(--line);
+		border-left: 1px solid var(--line);
+	}
+	.feature {
+		padding: 2rem 1.8rem 2.2rem;
+		border-right: 1px solid var(--line);
+		border-bottom: 1px solid var(--line);
+		transition: background 0.25s ease;
+	}
+	.feature:hover {
+		background: var(--bg-elev);
+	}
+	.feature-label {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--text-dim);
+	}
+	.feature h3 {
+		font-size: 1.18rem;
+		font-weight: normal;
+		margin: 0.7rem 0 0.7rem;
+		letter-spacing: 0.01em;
+	}
+	.feature p {
+		font-family: var(--mono);
+		font-size: 0.8rem;
+		line-height: 1.65;
+		color: var(--text-gray);
 	}
 
-	.info {
-		margin-bottom: 3rem;
-		max-width: 600px;
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	.info-section {
-		padding: 0;
+	/* ---------- closing ---------- */
+	.closing {
+		position: relative;
 		text-align: center;
+		padding: 6rem 1rem 5rem;
+		overflow: hidden;
 	}
-
-	.info-section h3 {
+	.closing-glow {
+		position: absolute;
+		bottom: -40%;
+		left: 50%;
+		width: 700px;
+		height: 500px;
+		max-width: 120vw;
+		transform: translateX(-50%);
+		background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+		opacity: 0.4;
+		filter: blur(30px);
+		pointer-events: none;
+	}
+	.closing > *:not(.closing-glow) {
+		position: relative;
+		z-index: 1;
+	}
+	.closing h2 {
+		font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+		font-weight: normal;
+		letter-spacing: 0.01em;
+		margin-bottom: 2rem;
+	}
+	.closing-cta {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 0.5rem;
-		color: var(--text-white);
-		margin-bottom: 1rem;
-		letter-spacing: 0.1rem;
-		font-size: 0.9rem;
-		text-transform: lowercase;
+		gap: 1.6rem;
+		flex-wrap: wrap;
 	}
-
-	.info-section h3 svg {
-		flex-shrink: 0;
+	.download.compact {
+		padding: 0.85rem 1.6rem;
+		gap: 0.6rem;
 	}
-
-	.info-section ul {
-		list-style: none;
-		padding-left: 0;
-	}
-
-	.info-section li {
-		padding: 0.4rem 0;
-		color: var(--text-gray);
-		font-size: 0.9rem;
-	}
-
-	.info-section li::before {
-		content: '- ';
-		margin-right: 0.5rem;
-	}
-
-	.shortcuts-link-section {
-		text-align: center;
-		margin-bottom: 3rem;
-	}
-
-	.shortcuts-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		color: var(--text-white);
-		font-size: 0.9rem;
-		text-decoration: underline;
-		text-transform: lowercase;
-	}
-
-	.shortcuts-link:hover {
+	.ghost {
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		letter-spacing: 0.03em;
 		color: var(--text-gray);
 	}
-
-	.shortcuts-link svg {
-		flex-shrink: 0;
+	.ghost:hover {
+		color: var(--text-white);
+		opacity: 1;
 	}
 
+	/* ---------- footer ---------- */
 	footer {
-		text-align: center;
-		padding: 3rem 0 2rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-top: 2rem;
+		border-top: 1px solid var(--line);
+		font-family: var(--mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.03em;
 		color: var(--text-gray);
 	}
-
-	footer p {
-		margin: 0.5rem 0;
-	}
-
-	.source-link {
-		font-size: 0.85rem;
-		text-decoration: underline;
-	}
-
-	.source-link:hover {
+	footer a {
 		color: var(--text-white);
 	}
+	footer a:hover {
+		color: var(--accent);
+		opacity: 1;
+	}
 
+	/* ---------- fade-in ---------- */
 	.fade-in {
 		opacity: 0;
-		animation: fadeIn 0.8s ease forwards;
+		animation: fadeIn 0.7s ease forwards;
 	}
-
 	.delay-1 {
-		animation-delay: 0.2s;
+		animation-delay: 0.12s;
 	}
-
 	.delay-2 {
-		animation-delay: 0.4s;
+		animation-delay: 0.24s;
 	}
-
 	.delay-3 {
-		animation-delay: 0.6s;
+		animation-delay: 0.36s;
 	}
-
-	.delay-4 {
-		animation-delay: 0.8s;
-	}
-
 	@keyframes fadeIn {
 		from {
 			opacity: 0;
-			transform: translateY(15px);
+			transform: translateY(16px);
 		}
 		to {
 			opacity: 1;
@@ -380,33 +570,48 @@
 		}
 	}
 
-	@media (max-width: 768px) {
-		h1 {
-			font-size: 2rem;
-			letter-spacing: 0.3rem;
+	/* ---------- responsive ---------- */
+	@media (max-width: 880px) {
+		.feature-grid {
+			grid-template-columns: repeat(2, 1fr);
 		}
-
-		.logo {
-			width: 80px;
-			height: 80px;
-		}
-
-		.features {
+		.other-grid {
 			grid-template-columns: 1fr;
 		}
-
-		.info {
+	}
+	@media (max-width: 680px) {
+		main {
+			padding: 0 1.1rem 3rem;
+		}
+		.hero {
+			padding: 3.5rem 0.5rem 4.5rem;
+		}
+		.feature-grid {
 			grid-template-columns: 1fr;
 		}
-
-		.download-btn {
-			font-size: 0.9rem;
-			padding: 0.85rem 1.5rem;
+		.download {
+			width: 100%;
+			justify-content: center;
 		}
-
-		.download-btn.primary {
-			font-size: 1rem;
-			padding: 1rem 1.75rem;
+		.cta {
+			align-items: stretch;
+		}
+		.cta-note,
+		.other-toggle {
+			text-align: center;
+		}
+		footer {
+			flex-direction: column;
+			gap: 0.8rem;
+			text-align: center;
+		}
+		.closing-cta {
+			flex-direction: column;
+			gap: 1.1rem;
+		}
+		.download.compact {
+			width: 100%;
+			justify-content: center;
 		}
 	}
 </style>

@@ -9,7 +9,13 @@ const config = {
 			fallback: undefined,
 			precompress: false,
 			strict: true
-		})
+		}),
+		prerender: {
+			handleHttpError: ({ path, message }) => {
+				if (path.startsWith('/downloads/')) return;
+				throw new Error(message);
+			}
+		}
 	}
 };
 
