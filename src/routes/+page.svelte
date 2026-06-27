@@ -80,14 +80,7 @@
 	<section class="hero">
 		<div class="hero-glow" aria-hidden="true"></div>
 
-		<div class="eq fade-in" aria-hidden="true">
-			{#each Array(13) as _, i}
-				<span style="--i:{i}"></span>
-			{/each}
-		</div>
-
-		<img src="/logo.svg" alt="WAVES logo" class="hero-mark fade-in delay-1" />
-		<h1 class="wordmark fade-in delay-1">WAVES</h1>
+		<h1 class="wordmark fade-in delay-1">Waves</h1>
 		<p class="tagline fade-in delay-2">A music player that listens back.</p>
 		<p class="subtagline fade-in delay-2">
 			Local-first. Real-time visualizers. No cloud, no accounts — just your library.
@@ -245,47 +238,11 @@
 		z-index: 1;
 	}
 
-	.eq {
-		display: flex;
-		align-items: flex-end;
-		justify-content: center;
-		gap: 5px;
-		height: 54px;
-		margin-bottom: 2.4rem;
-	}
-	.eq span {
-		width: 4px;
-		height: 100%;
-		background: linear-gradient(to top, var(--accent), rgba(150, 100, 255, 0.25));
-		border-radius: 2px;
-		transform-origin: bottom;
-		animation: bounce 1.3s ease-in-out infinite;
-		animation-delay: calc(var(--i) * -0.11s);
-	}
-	@keyframes bounce {
-		0%,
-		100% {
-			transform: scaleY(0.18);
-			opacity: 0.55;
-		}
-		50% {
-			transform: scaleY(1);
-			opacity: 1;
-		}
-	}
-
-	.hero-mark {
-		width: 64px;
-		height: 64px;
-		margin-bottom: 1.4rem;
-		filter: drop-shadow(0 0 24px var(--accent-glow));
-	}
 	.wordmark {
 		font-size: clamp(3.2rem, 11vw, 6.5rem);
 		line-height: 0.95;
-		letter-spacing: 0.12em;
+		letter-spacing: 0.04em;
 		font-weight: normal;
-		padding-left: 0.12em;
 		margin-bottom: 1.4rem;
 	}
 	.tagline {
