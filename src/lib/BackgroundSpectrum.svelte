@@ -41,7 +41,7 @@
 			const t = now / 1000;
 			ctx.clearRect(0, 0, w, h);
 			const barW = w / N;
-			const bw = barW * 0.6;
+			const bw = barW * 0.88;
 			for (let i = 0; i < N; i++) {
 				const x = i / N;
 				let v = 0.5 + 0.5 * Math.sin(x * 9 + t * 1.7);
