@@ -176,6 +176,8 @@
 
 <style>
 	main {
+		position: relative;
+		z-index: 1;
 		width: 100%;
 		max-width: 1040px;
 		margin: 0 auto;

@@ -81,10 +81,10 @@
 		bottom: 0;
 		width: 100vw;
 		height: 58vh;
-		z-index: -1;
+		z-index: 0;
 		pointer-events: none;
 		filter: blur(7px);
-		opacity: 0.5;
+		opacity: 0.6;
 		-webkit-mask-image: linear-gradient(to top, #000 0%, #000 32%, transparent 92%);
 		mask-image: linear-gradient(to top, #000 0%, #000 32%, transparent 92%);
 	}
